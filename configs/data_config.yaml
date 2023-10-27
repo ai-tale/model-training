@@ -1,0 +1,70 @@
+# Data configuration for story dataset preparation
+
+# Source data
+source:
+  fairy_tales:
+    - name: "grimm_brothers"
+      path: "data/raw/grimm_fairy_tales.json"
+      weight: 1.0
+    - name: "hans_christian_andersen"
+      path: "data/raw/andersen_fairy_tales.json" 
+      weight: 1.0
+    - name: "aesops_fables"
+      path: "data/raw/aesops_fables.json"
+      weight: 0.8
+  custom_stories:
+    - name: "ai_tale_custom"
+      path: "data/raw/ai_tale_custom_stories.json"
+      weight: 2.0  # Weight custom stories higher
+
+# Output paths
+output:
+  processed_dir: "data/processed"
+  train_file: "fairy_tales_train.json"
+  validation_file: "fairy_tales_val.json"
+  test_file: "fairy_tales_test.json"
+  metadata_file: "dataset_metadata.json"
+
+# Processing parameters
+preprocessing:
+  # Split ratios
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  
+  # Text cleaning options
+  remove_headers: true
+  remove_footers: true
+  min_story_length: 100
+  max_story_length: 10000
+  
+  # Content filtering
+  adult_content_filter: true
+  violence_threshold: 0.7  # Filter out highly violent content
+  
+  # Formatting
+  add_special_tokens: true
+  story_starter_token: "<|story|>"
+  story_end_token: "<|endofstory|>"
+  
+  # Augmentation
+  augmentation_enabled: true
+  paraphrase_ratio: 0.1  # Paraphrase 10% of stories
+  style_transfer_ratio: 0.05  # Transfer style for 5% of stories
+
+# Tokenization
+tokenization:
+  tokenizer: "gpt2"  # Matches the model we'll be using
+  max_length: 1024
+  truncation: true
+  padding: "max_length"
+  add_special_tokens: true
+
+# Dataset metadata
+metadata:
+  include_author: true
+  include_title: true
+  include_year: true
+  include_genre: true
+  include_age_range: true  # Target age range for stories
+  include_themes: true 
